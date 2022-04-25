@@ -3,7 +3,11 @@
 
 ### ✏️ Homework
 
-- Homework will be posted here
+- Erweitere die Beispiele mit dem Express-Server
+  - Verwende Variablen, gib z.B. das aktuelle Datum mit aus
+  - Spiele mit Routen: Hat die Reihenfolge eine Auswirkung?
+  - JavaScript: wie kann man die Arrow-Funktion für mehrere Routen zugänglich machen
+- [Emmet](https://emmet.io/) einlesen: https://emmet.io/
 
 ### 📄 Docs
 
