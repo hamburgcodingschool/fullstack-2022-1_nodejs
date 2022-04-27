@@ -14,6 +14,20 @@
 - [Outline](<docs/Outline - Node.js.pdf>)
 
 
+### Changed times
+
+25.4.<br/>
+27.4.<br/>
+~29.4.~<br/>
+~2.5.~<br/>
+4.5.<br/>
+6.5.<br/>
+7.5. (Ersatztermin 10-13 Uhr)<br/>
+9.5. <br/>
+11.5.<br/>
+12.5. (Ersatztermin)
+
+
 ### 🤔 Questions?
 
 Use the Slack channel [#fullstack-2022-1](https://hamburgcodingschool.slack.com/archives/C02TX7C3SQH)
