@@ -3,10 +3,12 @@
 
 ### ✏️ Homework
 
-- Erweitere die Beispiele mit dem Express-Server
-  - Verwende Variablen, gib z.B. das aktuelle Datum mit aus
-  - Spiele mit Routen: Hat die Reihenfolge eine Auswirkung?
-  - JavaScript: wie kann man die Arrow-Funktion für mehrere Routen zugänglich machen
+- Schreibe eine BMI-Rechner (Body Mass Index)
+- BMI-Index soll auf dem Server berechnet werden
+- Zusatz:
+  - Unterschiedliche Berechnungen für Männer und Frauen (radio button)
+  - HTNL-Ausgabe schick machen mit CSS, z.B. rot/gelb/grün je nach Ergebnis
+
 - [Emmet](https://emmet.io/) einlesen: https://emmet.io/
 
 ### 📄 Docs

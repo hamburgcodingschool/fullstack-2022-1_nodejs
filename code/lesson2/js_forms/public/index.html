@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formular-Beispiel</title>
+</head>
+<body>
+    <h1>Bitte Daten eingeben</h1>
+    <p>Wie heißt Du?</p>
+    
+        <input type="text" id="zahl1" /> + 
+        <input type="text" id="zahl2" /> 
+        <button type="submit" id="submit">Abschicken</button>
+        <div id="anzeige"></div>
+    <script type="text/javascript">
+        const zahl1 = document.getElementById("zahl1");
+        const zahl2 = document.getElementById("zahl2");
+        const button = document.getElementById("submit");
+        const antwortAnzeige = document.getElementById("anzeige");
+
+        button.addEventListener('click', () => {
+            const dataToSend = { z1: parseInt(zahl1.value), z2: parseInt(zahl2.value) };
+            fetch("/formular", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dataToSend)
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                antwortAnzeige.innerHTML = result.antw;
+            })
+            
+
+        })
+    </script>
+</body>
+</html>
