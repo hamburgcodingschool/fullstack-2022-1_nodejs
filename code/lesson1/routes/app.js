@@ -1,15 +1,20 @@
 const express = require("express");
 const app = express();
+const PORT = 3000;
+
+function log(path) {
+    console.log(`${path} requested`);
+}
 
 app.get("/", (req, res) => {
     res.send("<html><head><title>Works</title></head><body><b>It</b> works!</body></html>");
-    console.log("Request on /");
+    log("/");
 });
 app.get("/hello", (req, res) => {
     res.send("Hello from the other side");
-    console.log("Request on /hello");
+    log("/hello");
 });
 
-app.listen(3000, () => {
-    console.log("Server wurde gestartet...");
+app.listen(PORT, () => {
+    console.log(`Server wurde gestartet auf Port ${PORT}...`);
 });
