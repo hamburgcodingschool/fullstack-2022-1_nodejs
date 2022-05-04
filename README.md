@@ -3,11 +3,15 @@
 
 ### ✏️ Homework
 
-- Schreibe eine BMI-Rechner (Body Mass Index)
-- BMI-Index soll auf dem Server berechnet werden
-- Zusatz:
-  - Unterschiedliche Berechnungen für Männer und Frauen (radio button)
-  - HTNL-Ausgabe schick machen mit CSS, z.B. rot/gelb/grün je nach Ergebnis
+- Erster Teil für eine ToDo-Listen App schreiben
+- Nur 1 ToDo: Anlegen, Verändern, Löschen
+- Beim Neuladen der Seite soll das ToDo angezeigt werden
+
+- Texteingabe über HTML-Eingabefeld oder über `prompt()`
+
+- Extra:
+  - In CSS schick machen
+  - Animation, wenn ToDo erledigt ist (gelöscht wird)
 
 - [Emmet](https://emmet.io/) einlesen: https://emmet.io/
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Increment value</h1>
+
+    <p>Current value is <span id="value">0</span></p>
+
+    <button id="buttonInc">Inc</button>
+    <button id="buttonReset">Reset</button>
+
+    <script>
+        const buttonInc = document.getElementById('buttonInc');
+        const buttonReset = document.getElementById('buttonReset');
+        const value = document.getElementById('value');
+        
+        buttonInc.addEventListener("click", () => {
+            fetch("/cars", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json"},
+                body: "{}"
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                value.innerHTML = result.antw;
+                return result.antw;
+            })
+            .then((number) => {
+                console.log(number);
+            });
+        });
+        buttonReset.addEventListener("click", () => {
+            fetch("/cars", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json"},
+                body: "{}"
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                value.innerHTML = result.antw;
+            })
+        });
+
+        fetch("/cars")
+        .then((response) => response.json())
+        .then((result) => {
+            value.innerHTML = result.antw;
+        })
+    </script>
+</body>
+</html>

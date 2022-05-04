@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Increment value</h1>
+
+    <p>Current value is <span id="value">0</span></p>
+
+    <button id="button">Inc</button>
+
+    <script>
+        const button = document.getElementById('button');
+        const value = document.getElementById('value');
+        
+        button.addEventListener("click", () => {
+            fetch("/inc", {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: "{}"
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                value.innerHTML = result.antw;
+                return result.antw;
+            })
+            .then((number) => {
+                console.log(number);
+            });
+        });
+    </script>
+</body>
+</html>
