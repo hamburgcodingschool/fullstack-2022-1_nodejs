@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        li button { margin-left: 10px; }
+    </style>
 </head>
 <body>
     <h1>Aufgabenliste</h1>
@@ -43,6 +46,20 @@
             const liElement = document.createElement('li');
             liElement.setAttribute("data-id", todolist[i].id);
             liElement.innerHTML = todolist[i].text;
+            const btnElement = document.createElement('button');
+            btnElement.innerHTML = "Delete";
+            btnElement.setAttribute("data-id", todolist[i].id);
+            btnElement.addEventListener("click", (event) => {
+                const id = event.srcElement.getAttribute("data-id");
+                fetch("/todo/" + id, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                    body: "{}"
+                })
+                .then((response) => response.json())
+                .then((result) => displayTodos(result.todos))
+            });
+            liElement.append(btnElement);
             todoList.append(liElement);
         }
     }
