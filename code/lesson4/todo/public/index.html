@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Aufgabenliste</h1>
+    <ul id="aufgabenliste">
+    </ul>
+    <button id="create">Neues ToDo erstellen</button>
+
+<script>
+    const todoList = document.getElementById("aufgabenliste");
+    const btnCreate = document.getElementById("create");
+
+    btnCreate.addEventListener("click", () => {
+        const newToDo = prompt("Neue Aufgabe:");
+        if (newToDo !== "") {
+            const dataToSend = { todo1: newToDo }
+            fetch("/todo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify(dataToSend)
+            })
+            .then((response) => response.json())
+            .then((result) => displayTodos(result.todos))
+        }
+    });
+
+
+    /**
+     * Display the Todo-List
+     * @param todolist - A list of todo items. Needs to be an array.
+     */
+    function displayTodos(todolist) {
+        console.log(todolist);
+        // for reference: {"todos":[{"id":0,"text":"aufgabe 1"},{"id":1,"text":"aufgabe 2"}]}
+        todoList.innerHTML = '';
+        for (let i = 0; i < todolist.length; i++) {
+            const liElement = document.createElement('li');
+            liElement.setAttribute("data-id", todolist[i].id);
+            liElement.innerHTML = todolist[i].text;
+            todoList.append(liElement);
+        }
+    }
+
+    fetch("/todos")
+    .then((response) => response.json())
+    .then((result) => { console.log(result); displayTodos(result.todos); } )
+</script>
+</body>
+</html>
