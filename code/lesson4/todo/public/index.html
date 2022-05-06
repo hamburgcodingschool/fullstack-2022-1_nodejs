@@ -5,11 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Short+Stack&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="DoodleCSS/doodle.css">
     <style>
         li button { margin-left: 10px; }
+        body {
+        font-family: 'Short Stack', cursive;
+        }
     </style>
 </head>
-<body>
+<body class="doodle">
     <h1>Aufgabenliste</h1>
     <ul id="aufgabenliste">
     </ul>
@@ -34,6 +41,23 @@
     });
 
 
+    function createButton(name, method, todo, func) {
+        const btnElement = document.createElement('button');
+            btnElement.innerHTML = name;
+            btnElement.setAttribute("data-id", todo.id);
+            btnElement.addEventListener("click", (event) => {
+                const id = event.srcElement.getAttribute("data-id");
+                const dataToSend = func(todo.text);
+                fetch("/todo/" + todo.id, {
+                    method: method,
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(dataToSend)
+                })
+                .then((response) => response.json())
+                .then((result) => displayTodos(result.todos))
+            });
+        return btnElement;
+    }
     /**
      * Display the Todo-List
      * @param todolist - A list of todo items. Needs to be an array.
@@ -46,20 +70,16 @@
             const liElement = document.createElement('li');
             liElement.setAttribute("data-id", todolist[i].id);
             liElement.innerHTML = todolist[i].text;
-            const btnElement = document.createElement('button');
-            btnElement.innerHTML = "Delete";
-            btnElement.setAttribute("data-id", todolist[i].id);
-            btnElement.addEventListener("click", (event) => {
-                const id = event.srcElement.getAttribute("data-id");
-                fetch("/todo/" + id, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json"},
-                    body: "{}"
-                })
-                .then((response) => response.json())
-                .then((result) => displayTodos(result.todos))
+
+            const deleteBtnElement = createButton("🗑", "DELETE", todolist[i], () => { return {} });
+            liElement.append(deleteBtnElement);
+
+            const editBtnElement = createButton("✎", "PUT", todolist[i], (oldText) => {
+                const t = prompt("Edit todo entry ", oldText);
+                return { text : t}
             });
-            liElement.append(btnElement);
+            liElement.append(editBtnElement);
+
             todoList.append(liElement);
         }
     }

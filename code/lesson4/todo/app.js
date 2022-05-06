@@ -29,9 +29,25 @@ app.delete("/todo/:id", (req, res) => {
   // parseInt makes a string a number, now id is a number
 
   // find element with id == 1 and delete it
-  todoliste = todoliste.filter((eintrag_in_der_todoliste) => eintrag_in_der_todoliste.id != id);
+  todoliste = todoliste.filter(
+    (eintrag_in_der_todoliste) => eintrag_in_der_todoliste.id != id
+  );
 
   console.log(`Element ${id} deleted`);
+  res.send({ todos: todoliste });
+});
+
+app.put("/todo/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  // parseInt makes a string a number, now id is a number
+
+  for (x in todoliste) {
+    if (todoliste[x].id == id) {
+      todoliste[x].text = req.body.text;
+    }
+  }
+
+  console.log(`Element ${id} edited`);
   res.send({ todos: todoliste });
 });
 
