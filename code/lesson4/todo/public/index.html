@@ -5,15 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Download "Short Stack" font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Short+Stack&display=swap" rel="stylesheet">
+    <!-- Doodle stylesheet - from https://github.com/chr15m/DoodleCSS -->
     <link rel="stylesheet" href="DoodleCSS/doodle.css">
     <style>
-        li button { margin-left: 10px; }
+        /* Use the "Short Stack" font */
         body {
-        font-family: 'Short Stack', cursive;
+            font-family: 'Short Stack', cursive;
         }
+        /* My own CSS adaptions */
+        li button { margin-left: 10px; }
     </style>
 </head>
 <body class="doodle">
@@ -40,7 +44,6 @@
         }
     });
 
-
     function createButton(name, method, todo, func) {
         const btnElement = document.createElement('button');
             btnElement.innerHTML = name;
@@ -58,6 +61,7 @@
             });
         return btnElement;
     }
+    
     /**
      * Display the Todo-List
      * @param todolist - A list of todo items. Needs to be an array.
