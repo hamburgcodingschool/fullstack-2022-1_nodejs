@@ -3,17 +3,16 @@
 
 ### ✏️ Homework
 
-- Erster Teil für eine ToDo-Listen App schreiben
-- Nur 1 ToDo: Anlegen, Verändern, Löschen
-- Beim Neuladen der Seite soll das ToDo angezeigt werden
+- URL-Shortener schreiben
+  bit.ly/uB254Gn
+- Wie bei ToDo-Liste, nur mit 2 Feldern (original URL, gekuerzte URL)
+- Verwaltungs-Seite, um Liste zu bearbeiten
+- Nutzungs-Seite
+  `Url.find({ shortened: input })` um ein Ergebnis zu finden 
+  `app.get('/:shortened')` um auf alle möglichen Kurz-URLs zu lauschen
+  `res.redirect(301, url)` statt `res.send()`
 
-- Texteingabe über HTML-Eingabefeld oder über `prompt()`
-
-- Extra:
-  - In CSS schick machen
-  - Animation, wenn ToDo erledigt ist (gelöscht wird)
-
-- [Emmet](https://emmet.io/) einlesen: https://emmet.io/
+- Erweiterung: Kurz-URL automatisch erstellen
 
 ### 📄 Docs
 
@@ -22,6 +21,8 @@
 - [Handout](<docs/Handout - Node.js.pdf>)
 
 - [Outline](<docs/Outline - Node.js.pdf>)
+
+- [Emmet](https://emmet.io/) einlesen: https://emmet.io/
 
 
 ### Changed times
