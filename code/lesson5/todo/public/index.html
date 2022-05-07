@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Download "Short Stack" font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Short+Stack&display=swap" rel="stylesheet">
+    <!-- Doodle stylesheet - from https://github.com/chr15m/DoodleCSS -->
+    <link rel="stylesheet" href="DoodleCSS/doodle.css">
+    <style>
+        /* Use the "Short Stack" font */
+        body {
+            font-family: 'Short Stack', cursive;
+        }
+        /* My own CSS adaptions */
+        li button { margin-left: 10px; }
+    </style>
+</head>
+<body class="doodle">
+    <h1>Aufgabenliste</h1>
+    <ul id="aufgabenliste">
+    </ul>
+    <button id="create">Neues ToDo erstellen</button>
+
+<script>
+    const todoList = document.getElementById("aufgabenliste");
+    const btnCreate = document.getElementById("create");
+
+    btnCreate.addEventListener("click", () => {
+        const newToDo = prompt("Neue Aufgabe:");
+        if (newToDo !== "") {
+            const dataToSend = { todo1: newToDo }
+            fetch("/todo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify(dataToSend)
+            })
+            .then((response) => response.json())
+            .then((result) => displayTodos(result.todos))
+        }
+    });
+
+    function createButton(name, method, todo, func) {
+        const btnElement = document.createElement('button');
+            btnElement.innerHTML = name;
+            btnElement.setAttribute("data-id", todo._id);
+            btnElement.addEventListener("click", (event) => {
+                const id = event.srcElement.getAttribute("data-id");
+                const dataToSend = func(todo.text);
+                fetch("/todo/" + todo._id, {
+                    method: method,
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(dataToSend)
+                })
+                .then((response) => response.json())
+                .then((result) => { 
+                    if (result.err) alert(err);
+                    displayTodos(result.todos); 
+                })
+            });
+        return btnElement;
+    }
+    
+    /**
+     * Display the Todo-List
+     * @param todolist - A list of todo items. Needs to be an array.
+     */
+    function displayTodos(todolist) {
+        console.log(todolist);
+        // for reference: {"todos":[{"id":0,"text":"aufgabe 1"},{"id":1,"text":"aufgabe 2"}]}
+        todoList.innerHTML = '';
+        for (let i = 0; i < todolist.length; i++) {
+            const liElement = document.createElement('li');
+            liElement.setAttribute("data-id", todolist[i]._id);
+            liElement.innerHTML = todolist[i].text;
+
+            const deleteBtnElement = createButton("🗑", "DELETE", todolist[i], () => { return {} });
+            liElement.append(deleteBtnElement);
+
+            const editBtnElement = createButton("✎", "PUT", todolist[i], (oldText) => {
+                const t = prompt("Edit todo entry ", oldText);
+                return { text : t}
+            });
+            liElement.append(editBtnElement);
+
+            todoList.append(liElement);
+        }
+    }
+
+    fetch("/todos")
+    .then((response) => response.json())
+    .then((result) => { console.log(result); displayTodos(result.todos); } )
+</script>
+</body>
+</html>
