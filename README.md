@@ -12,8 +12,12 @@
   `app.get('/:shortened')` um auf alle möglichen Kurz-URLs zu lauschen
   `res.redirect(301, url)` statt `res.send()`
 
-- Erweiterung: Kurz-URL automatisch erstellen
+- URLs Eintragen durch HttpAuth schützen
 
+- Erweiterung: 
+  - Kurz-URL automatisch erstellen
+  - Einfache Nutzerverwaltung
+  
 ### 📄 Docs
 
 - [Lesson Summary](docs/summary.md)
