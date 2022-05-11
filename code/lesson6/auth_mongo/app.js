@@ -58,7 +58,7 @@ app.post("/secret/user", async (req, res) => {
   res.send("ok");
 });
 
-app.get("/secret/logut", (req, res) => {
+app.get("/secret/logout", (req, res) => {
   res.status(401).send('<!DOCTYPE html><p>You\'re not authorised. <a href="/secret">Login</a>.</p>');
 });
 
