@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      const ws = new WebSocket('ws://localhost:8080');
+
+      // Browser WebSockets have slightly different syntax than `ws`.
+      // Instead of EventEmitter syntax `on('open')`, you assign a callback
+      // to the `onopen` property.
+      ws.onopen = function() {
+        document.querySelector('#send').disabled = false;
+
+        document.querySelector('#send').addEventListener('click', function() {
+          ws.send(document.querySelector('#message').value);
+        });
+      };
+
+      ws.onmessage = async function(msg) {
+          // the data is binary data, we need to convert it to a string
+          const blob = new Blob([msg.data], {type: 'text/plain'});
+          const text = await blob.text();
+
+          document.querySelector('#messages').innerHTML += `<div>${text}</div>`;
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Chat</h1>
+    <div>
+      <input id="message" placeholder="Message">
+      <button id="send" disabled="true">Send</button>
+    </div>
+    <div id="messages">
+    </div>
+  </body>
+</html>
