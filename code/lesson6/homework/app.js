@@ -9,12 +9,18 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/todo-app");
 
 const Url = mongoose.model("Urls", {
-  short: String,
+  short: {
+    type: String,
+    unique: true, // `short` must be unique
+  },
   long: String,
 });
 
 const User = mongoose.model("Users", {
-  username: String,
+  username: {
+    type: String,
+    unique: true, // `username` must be unique
+  },
   passwordHash: String,
 });
 
@@ -32,7 +38,7 @@ app.use(
         username: vom_benutzer_eingegebener_username,
       });
       if (userList.length === 1) {
-        console.log(md5(vom_benutzer_eingegebenes_password));
+        // console.log(md5(vom_benutzer_eingegebenes_password));
         if (
           userList[0].passwordHash === md5(vom_benutzer_eingegebenes_password)
         ) {
@@ -53,15 +59,19 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
-const sendStatus = (err, res) => {
+const sendStatus = (err, res, id = null) => {
   if (err) {
     res.status(500).send({ ok: false, err: err });
   } else {
-    res.send({ ok: true });
+    if (id !== null) {
+      res.send({ ok: true, id: id });
+    } else {
+      res.send({ ok: true });
+    }
   }
 };
 
-app.get("/secret/url", async (req, res) => {
+app.get("/secret/url", (req, res) => {
   Url.find((err, urls) => {
     if (err) {
       res.status(500).send({ ok: false, err: err });
@@ -71,29 +81,57 @@ app.get("/secret/url", async (req, res) => {
   });
 });
 
-app.post("/secret/url", async (req, res) => {
+app.post("/secret/url", (req, res) => {
   const url = new Url(req.body);
-  url.save((err) => sendStatus(err, res));
+  url.save((err, data) => sendStatus(err, res, data ? data._id : null));
 });
 
-app.delete("/secret/url/:id", async (req, res) => {
-  await Url.findOneAndDelete(req.param.id, (err) => sendStatus(err, res));
-});
-
-app.put("/secret/url/:id", async (req, res) => {
-  await Url.findByIdAndUpdate(req.param.id, req.body, (err) =>
-    sendStatus(err, res)
+app.delete("/secret/url/:id", (req, res) => {
+  console.log(`Deleting ${req.params.id}`);
+  Url.findByIdAndDelete(req.params.id, (err) =>
+    sendStatus(err, res, req.params.id)
   );
 });
 
-app.post("/secret/user", async (req, res) => {
-  const user = new User({
-    username: req.body.user,
-    passwordHash: md5(req.body.password),
-    rights: req.body.right,
+app.put("/secret/url/:id", (req, res) => {
+  console.log(req.body);
+  console.log(`Updating ${req.params.id}`);
+  Url.findByIdAndUpdate(req.params.id, req.body, (err) =>
+    sendStatus(err, res, req.params.id)
+  );
+});
+
+app.get("/secret/user", (req, res) => {
+  User.find((err, users) => {
+    if (err) {
+      res.status(500).send({ ok: false, err: err });
+    } else {
+      res.send({ ok: true, users: users });
+    }
   });
-  await user.save();
-  res.send("ok");
+});
+
+app.post("/secret/user", (req, res) => {
+  req.body.passwordHash = md5(req.body.passwordHash);
+  const url = new User(req.body);
+  url.save((err, data) => sendStatus(err, res, data ? data._id : null));
+});
+
+app.delete("/secret/user/:id", (req, res) => {
+  console.log(`Deleting ${req.params.id}`);
+  User.findByIdAndDelete(req.params.id, (err) =>
+    sendStatus(err, res, req.params.id)
+  );
+});
+
+app.put("/secret/user/:id", (req, res) => {
+  if (req.body.passwordHash) {
+    req.body.passwordHash = md5(req.body.passwordHash);
+  }
+  console.log(`Updating ${req.params.id}`);
+  User.findByIdAndUpdate(req.params.id, req.body, (err) =>
+    sendStatus(err, res, req.params.id)
+  );
 });
 
 app.get("/secret/logout", (req, res) => {
